@@ -22,3 +22,50 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# STS / Eclipse
+.project
+.classpath
+.settings/
+.apt_generated/
+.factorypath
+.springBeans
+
+# Maven
+target/
+!src/main/resources/static/
+!src/main/resources/templates/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IntelliJ IDEA (in case you use both IDEs)
+.idea/
+*.iml
+*.iws
+out/
+
+# VS Code (optional)
+.vscode/
+HELP.md
+.mvn
+mvnw
+mvnw.cmd
+.gitattributes
+
+# Test coverage and build reports
+coverage/
+build/
+
+# Environment and config files
+.env
+*.local
+*.yml~  # temp backups
+
+# Node modules (if frontend involved later)
+node_modules/
