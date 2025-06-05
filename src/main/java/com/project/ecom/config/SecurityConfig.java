@@ -1,12 +1,9 @@
 package com.project.ecom.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,12 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.project.ecom.service.UserService;
 
 import org.springframework.security.config.Customizer;
 
 
-import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -30,15 +25,23 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 	
+	
+	
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+	    return config.getAuthenticationManager();
+	}
+	
     
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-            .userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder())
-            .and()
-            .build();
-    }
+//    @Bean
+//    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+//    	System.out.println(http.toString()+" from AuthenticationManager ");
+//        return http.getSharedObject(AuthenticationManagerBuilder.class)
+//            .userDetailsService(userDetailsService)
+//            .passwordEncoder(passwordEncoder())
+//            .and()
+//            .build();
+//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -58,12 +61,13 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
     
-    @Bean
-     AuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder, UserService userService) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userService);
-        provider.setPasswordEncoder(passwordEncoder); 
-        return provider;
-    }
+//    @Bean
+//     AuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder, UserService userService) {
+//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+//        provider.setUserDetailsService(userService);
+//        provider.setPasswordEncoder(passwordEncoder); 
+//        System.out.println(provider.toString()+" from authenticationProvider ");
+//        return provider;
+//    }
 
 }
