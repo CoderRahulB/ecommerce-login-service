@@ -61,4 +61,22 @@ public class JwtService {
 	public boolean isTokenExpired(String token) {
 	    return extractClaims(token, Claims::getExpiration).before(new Date());
 	}
+	
+	public String extractJti(String token) {
+        try {
+            String rawToken = token.startsWith("Bearer ") ? token.substring(7) : token;
+
+            SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+
+            Claims claims = Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(rawToken)
+                    .getPayload();
+
+            return claims.getId(); // jti
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid token", e);
+        }
+    }
 }
