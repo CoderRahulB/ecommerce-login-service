@@ -66,10 +66,11 @@ public class AuthController {
         user.setEmail(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         Role requestedRole = request.getRole();
-        if (requestedRole != Role.USER && requestedRole != Role.SELLER) {
-            return ResponseEntity.badRequest().body("Invalid role selection");
-        }
-        user.setRole(requestedRole);
+//        if (requestedRole != Role.USER && requestedRole != Role.SELLER) {
+//        	
+//            //return ResponseEntity.badRequest().body("Invalid role selection");
+//        }
+        user.setRole(Role.USER);
         userRepository.save(user);
         return ResponseEntity.ok("User registered");
     }
